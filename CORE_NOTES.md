@@ -22,7 +22,7 @@ The formulation considered here is restricted to a single-reversal protocol.
 
 本次没有修改负分支本身的插值或回扫计算。协议检查只拒绝第二次方向反转，不会将原算法变成任意历史都成立的磁滞模型；例如先向负扫再回升的第一次回扫仍按原负分支公式计算。模型没有显式时间、脉宽、温度或微磁动力学方程。
 
-另一个历史实现 requested_memory_roundtrip 已从此包移除，以免绕过协议检查；原始研究目录中的文件没有修改。triangular_sweep 仅生成数组，本身不执行模型；从默认初始电流 0 跳到负端点再进行完整负→正→负扫描，会产生两次方向反转并被拒绝。当前 demo 将 INITIAL_X 显式设为 −35 mA、INITIAL_M 设为 0.30，再执行 −35→+35→−35 mA，因此只反转一次。
+另一个历史实现 requested_memory_roundtrip 已从此包移除，以免绕过协议检查；原始研究目录中的文件没有修改。triangular_sweep 仅生成数组，本身不执行模型；从默认初始电流 0 跳到负端点再进行完整负→正→负扫描，会产生两次方向反转并被拒绝。当前 demo 分别将 INITIAL_X 设为 −25 和 −35 mA，每轮 INITIAL_M 均为 0.30，执行独立的 ±25 和 ±35 mA 往返扫描，每轮只反转一次。
 
 ## 电阻网络与参数
 

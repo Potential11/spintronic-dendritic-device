@@ -19,16 +19,18 @@ The network converts applied port voltages into an effective SOT current, which 
 
 ## Getting started
 
-Requires Python 3.10+ and NumPy.
+Requires Python 3.10+, NumPy and Matplotlib.
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 run_demo.py
 ```
 
-The current-driven demo sweeps from −35 to +35 mA and back to −35 mA, starting at `INITIAL_X = -35 mA` and `INITIAL_M = 0.30`.
+The current-driven demo overlays two independent round trips: −25 → +25 → −25 mA and −35 → +35 → −35 mA. Each round starts at its negative endpoint with `INITIAL_M = 0.30`. Solid lines show forward scans and dashed lines show return scans.
 
-The demo creates `results/current_modes.csv` and `results/voltage_scan.csv` containing simulated responses.
+![Independent current sweeps](demo_roundtrips.png)
+
+The demo creates `results/current_roundtrips.csv`, the corresponding PNG/PDF/SVG plot, and `results/voltage_scan.csv`, all containing simulated responses.
 
 ### Current-driven example
 
