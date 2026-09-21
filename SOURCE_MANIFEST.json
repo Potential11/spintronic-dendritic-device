@@ -1,0 +1,6 @@
+{
+  "source_relative_to_2026": "画图/文章图汇总/汇总1/sot_model_extracted/sot_model.py",
+  "source_sha256": "d080380fb10825edc91fea977c72ba9e63ed69d54de15c9b2ae55c6ae9bfa03b",
+  "method": "Source-derived modules; revised to fixed positive target and enforced single-reversal protocol. Legacy unguarded requested_memory_roundtrip excluded.",
+  "excluded": "Plotting scripts, notebooks, generated historical outputs, circuit vendor models and experimental data."
+}
