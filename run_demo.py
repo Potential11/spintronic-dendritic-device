@@ -2,7 +2,7 @@
 from pathlib import Path
 import csv
 import numpy as np
-from sot_model import SOTSwitchingModel, stateless_sot_response, triangular_sweep
+from sot_model import DEFAULT_PARAMS, SOTSwitchingModel, stateless_sot_response, triangular_sweep
 from resistor_network import voltage_network_currents
 from coupled_model import run_plot2_condition
 
@@ -10,8 +10,10 @@ from coupled_model import run_plot2_condition
 def main():
     out = Path(__file__).resolve().parent / 'results'
     out.mkdir(exist_ok=True)
-    sweep = np.concatenate([np.linspace(0, 35, 101), np.linspace(35, -35, 201)[1:]])
-    model = SOTSwitchingModel()
+    sweep = triangular_sweep(35, 201)
+    # Start at the negative endpoint; the sweep reverses only at +35 mA.
+    params = dict(DEFAULT_PARAMS, INITIAL_X=-35.0, INITIAL_M=0.30)
+    model = SOTSwitchingModel(params)
     with (out / 'current_modes.csv').open('w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['step', 'current_mA', 'M_stateful', 'M_independent'])

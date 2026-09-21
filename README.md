@@ -26,6 +26,8 @@ python3 -m pip install -r requirements.txt
 python3 run_demo.py
 ```
 
+The current-driven demo sweeps from −35 to +35 mA and back to −35 mA, starting at `INITIAL_X = -35 mA` and `INITIAL_M = 0.30`.
+
 The demo creates `results/current_modes.csv` and `results/voltage_scan.csv` containing simulated responses.
 
 ### Current-driven example
