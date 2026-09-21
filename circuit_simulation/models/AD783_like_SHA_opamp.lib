@@ -1,0 +1,58 @@
+* AD783-like high-speed sample-and-hold macro model for ngspice.
+* Op-amp-buffer variant: input/output buffers are finite-gain single-pole
+* voltage followers instead of ideal E-source buffers.
+*
+* This is not an official Analog Devices model. It is a compact macro model
+* matched to the AD783-class timing target: about 250 ns acquisition to 0.01%.
+*
+* Pin order follows the useful AD783 signal pins:
+*   IN  SH  COM  VEE  OUT  VCC
+*
+* SH high  -> track/sample
+* SH low   -> hold
+*
+* Timing basis:
+*   0.01% settling requires exp(-t/tau) = 1e-4.
+*   tau = 250 ns / ln(10000) = 27.1 ns.
+*   With CHOLD=1 nF and RON=27 ohm, tau ~= 27 ns.
+
+.subckt AD783_LIKE_SHA_OPAMP IN SH COM VEE OUT VCC params: RON=27 ROFF=1e12 CHOLD=1n ROUT=25 COUT=650p VTH=2.5 VH=0.1 RLEAK=1e12 OPGAIN=100k OPPOLE=200Meg OPROUT=5
+
+* High-input-impedance finite-bandwidth input buffer followed by the sampling switch.
+* Non-inverting follower: + input = IN, - input = INBUF.
+XINBUF IN INBUF VCC VEE INBUF AD783_FAST_FOLLOWER params: GAIN={OPGAIN} POLE={OPPOLE} ROUT={OPROUT}
+R_IN_BLEED INBUF COM 1G
+S_TRACK INBUF HOLD SH COM S_TRACK_MODEL
+.model S_TRACK_MODEL sw vt={VTH} vh={VH} ron={RON} roff={ROFF}
+CHOLD_INT HOLD COM {CHOLD}
+RLEAK_INT HOLD COM {RLEAK}
+
+* Finite-bandwidth output buffer with finite output resistance and output settling.
+* Non-inverting follower: + input = HOLD, - input = BUF.
+XOUTBUF HOLD BUF VCC VEE BUF AD783_FAST_FOLLOWER params: GAIN={OPGAIN} POLE={OPPOLE} ROUT={OPROUT}
+R_OUT BUF OUT {ROUT}
+C_OUT OUT COM {COUT}
+R_OUT_BLEED OUT COM 1G
+
+* Soft rail clamps keep the macro output in the supply range.
+DCLAMP_H OUT VCC DCLAMP
+DCLAMP_L VEE OUT DCLAMP
+.model DCLAMP D IS=1e-18 RS=1
+
+.ends AD783_LIKE_SHA_OPAMP
+
+* Compact high-speed voltage follower used inside the SHA macro.
+* Pin order: in+ in- vcc vee out
+.subckt AD783_FAST_FOLLOWER inplus inminus vcc vee out params: GAIN=100k POLE=200Meg ROUT=5
+GERR 0 int inplus inminus 1m
+RGAIN int 0 {GAIN/1m}
+CPOLE int 0 {1/(6.283185307*(GAIN/1m)*POLE)}
+EOUT buf 0 int 0 1
+RBUF buf out {ROUT}
+EHI nhi 0 vcc 0 1
+ELO nlo 0 vee 0 1
+DHI out nhi DFOLLOW_CLAMP
+DLO nlo out DFOLLOW_CLAMP
+RINT_LEAK int 0 1G
+.model DFOLLOW_CLAMP D IS=1e-18 RS=1
+.ends AD783_FAST_FOLLOWER
