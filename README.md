@@ -15,7 +15,6 @@ The network converts applied port voltages into an effective SOT current, which 
 | `test_protocol.py` | Model protocol tests |
 | [CORE_NOTES.md](CORE_NOTES.md) | Detailed model rules, parameters and scope (Chinese) |
 | [VALIDATION.md](VALIDATION.md) | Validation details (Chinese) |
-| `SOURCE_MANIFEST.json` | Source provenance and revision description |
 
 ## Getting started
 
@@ -68,3 +67,7 @@ python3 -m unittest -v test_protocol.py
 ```
 
 See [model notes](CORE_NOTES.md) for the formulation and its scope, and [validation details](VALIDATION.md) for the checks performed. This repository contains the core behavioral model and examples; experimental data and peripheral circuit simulations are not included.
+
+## Circuit simulation
+
+[Download the circuit simulation package](circuit-simulation.zip). It includes the three simulation programs, circuit and device models, five-port memory code, instructions, and regenerated waveforms. Unzip it and follow its README; ngspice is required in addition to the Python dependencies.
