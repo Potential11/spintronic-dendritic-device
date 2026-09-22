@@ -58,7 +58,7 @@ delta_m = run_plot2_condition(
 print(delta_m)
 ```
 
-The stateful interfaces retain history between calls. Independent-condition interfaces initialize the model for each condition. The default network uses ports 1, 2 and 4; branch currents are in A and effective SOT current is in mA.
+The stateful interfaces retain history between calls. Independent-condition interfaces initialize the model for each condition.For simplicity, the voltage-driven demo included in this repository only illustrates a single-branch resistor network. The default network uses ports 1, 2 and 4; branch currents are in A and effective SOT current is in mA.
 
 ## Validation
 
