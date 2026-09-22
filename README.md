@@ -1,6 +1,6 @@
 # Spintronic dendritic device
 
-SOT behavioral models, resistor-network calculations and ngspice circuit simulations. All source files and example results are available directly in the folders below.
+SOT behavioral models, resistor-network calculations, ngspice circuit simulations and MNIST network comparisons. All source files and example results are available directly in the folders below.
 
 ## Repository structure
 
@@ -14,7 +14,8 @@ circuit_simulation/
   results/                 Generated netlists and waveform previews
   run_all.py               Run all three stages in order
   README.md                Circuit instructions
-requirements.txt           Combined Python dependencies
+卷积网络/                  One-epoch MNIST FC, convolution and dendritic networks
+requirements.txt           SOT and circuit Python dependencies
 ```
 
 ## SOT and resistor-network demo
@@ -51,3 +52,18 @@ The four position sequences are 12345, 321, 345 and 12333. The circuit retains i
 - [Read timing detail](circuit_simulation/results/combined_enable_three_rd_timing_large_text.png)
 
 These are behavioral and circuit simulations; experimental measurements are not included. The interactive notebook is not required and is not included.
+
+## One-epoch MNIST network comparison
+
+See [卷积网络](卷积网络/README.md) for the three-network training and evaluation code and [downloadable package](卷积网络/mnist-three-networks-epoch1.zip). It compares FC, trainable convolution and dendritic networks using ratio-3 kernels, 60,000 clean training images for one epoch, and the first 500 MNIST test images. The fixed-convolution baseline is not included in the comparison.
+
+From the repository root:
+
+```bash
+cd 卷积网络
+python3 -m pip install -r requirements.txt
+python3 code/epoch1_batch_accuracy_ratio3.py
+```
+
+MNIST is downloaded on first use. Training outputs are generated under `卷积网络/results/`. No pretrained weights or historical accuracy results are included.
+
